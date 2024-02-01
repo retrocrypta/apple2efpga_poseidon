@@ -81,8 +81,8 @@ entity apple2e_mist is
 	 
 	 -- Sound to top
 	 CLK_SYS : out std_logic;
-	 DAC_L   : out signed(15 downto 0);
-	 DAC_R   : out signed(15 downto 0);
+	 DAC_L   : out signed(9 downto 0);
+	 DAC_R   : out signed(9 downto 0);
 
     -- LEDG
     LED : out std_logic

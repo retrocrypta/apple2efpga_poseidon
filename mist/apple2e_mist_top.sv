@@ -161,8 +161,8 @@ apple2e_mist (
 );
 
 wire clk_sys;
-wire [15:0] dac_l;
-wire [15:0] dac_r;
+wire [9:0] dac_l;
+wire [9:0] dac_r;
 
 `ifdef I2S_AUDIO
 i2s i2s (
@@ -174,8 +174,8 @@ i2s i2s (
 	.lrclk(I2S_LRCK),
 	.sdata(I2S_DATA),
 
-	.left_chan(dac_l),
-	.right_chan(dac_r)
+	.left_chan({dac_l,6'b0}),
+	.right_chan({dac_r,6'b0})
 );
 `endif
 
