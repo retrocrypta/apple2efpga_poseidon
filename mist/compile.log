@@ -1,0 +1,46 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Shell
+    Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
+    Info: Copyright (C) 2017  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel MegaCore Function License Agreement, or other 
+    Info: applicable license agreement, including, without limitation, 
+    Info: that your use is for the sole purpose of programming logic 
+    Info: devices manufactured by Intel and sold by Intel or its 
+    Info: authorized distributors.  Please refer to the applicable 
+    Info: agreement for further details.
+    Info: Processing started: Thu Feb  1 21:04:47 2024
+Info: Command: quartus_sh --flow compile mist/apple2fpga_MiST.qpf
+Info: Quartus(args): compile mist/apple2fpga_MiST.qpf
+Info: Project Name = /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/mist/apple2fpga_MiST
+Info: Revision Name = apple2fpga_MiST
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
+    Info: Processing started: Thu Feb  1 21:04:48 2024
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off apple2fpga_MiST -c apple2fpga_MiST
+Info (20034): Auto device selection is not supported for Cyclone V device family. The default device, 5CGXFC7C7F23C8, is set.
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Error (12007): Top-level design entity "apple2fpga_MiST" is undefined
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 1 warning
+    Error: Peak virtual memory: 917 megabytes
+    Error: Processing ended: Thu Feb  1 21:04:57 2024
+    Error: Elapsed time: 00:00:09
+    Error: Total CPU time (on all processors): 00:00:24
+Error (293001): Quartus Prime Full Compilation was unsuccessful. 3 errors, 1 warning
+Error: Flow compile (for project /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/mist/apple2fpga_MiST) was not successful
+Error: ERROR: Error(s) found while running an executable. See report file(s) for error message(s). Message log indicates which executable was run last.
+
+Error (23031): Evaluation of Tcl script /mnt/Teradisk/Quartus/quartus/common/tcl/internal/qsh_flow.tcl unsuccessful
+Error: Quartus Prime Shell was unsuccessful. 10 errors, 1 warning
+    Error: Peak virtual memory: 772 megabytes
+    Error: Processing ended: Thu Feb  1 21:04:58 2024
+    Error: Elapsed time: 00:00:11
+    Error: Total CPU time (on all processors): 00:00:25

@@ -1,0 +1,125 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Shell
+    Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
+    Info: Copyright (C) 2017  Intel Corporation. All rights reserved.
+    Info: Your use of Intel Corporation's design tools, logic functions 
+    Info: and other software and tools, and its AMPP partner logic 
+    Info: functions, and any output files from any of the foregoing 
+    Info: (including device programming or simulation files), and any 
+    Info: associated documentation or information are expressly subject 
+    Info: to the terms and conditions of the Intel Program License 
+    Info: Subscription Agreement, the Intel Quartus Prime License Agreement,
+    Info: the Intel MegaCore Function License Agreement, or other 
+    Info: applicable license agreement, including, without limitation, 
+    Info: that your use is for the sole purpose of programming logic 
+    Info: devices manufactured by Intel and sold by Intel or its 
+    Info: authorized distributors.  Please refer to the applicable 
+    Info: agreement for further details.
+    Info: Processing started: Thu Feb  1 21:04:36 2024
+Info: Command: quartus_sh -t ..//DeMiSTify/Scripts/compile.tcl -project apple2fpga -board poseidon-ep4cgx150
+Info: Quartus(args): -project apple2fpga -board poseidon-ep4cgx150
+Project: apple2fpga_poseidon-ep4cgx150
+Target: poseidon-ep4cgx150
+Warning (125092): Tcl Script File pll.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE pll.qip -qip top.qip
+Warning (125092): Tcl Script File ../project.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE ../project.qip
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
+    Info: Processing started: Thu Feb  1 21:04:37 2024
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off apple2fpga_poseidon-ep4cgx150 -c apple2fpga_poseidon-ep4cgx150
+Warning (125092): Tcl Script File pll.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE pll.qip -qip top.qip
+Warning (125092): Tcl Script File ../project.qip not found
+    Info (125063): set_global_assignment -name QIP_FILE ../project.qip
+Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
+Warning (12019): Can't analyze file -- file ../DeMiSTify/Board/poseidon-ep4cgx150/audio_i2s.vhd is missing
+Warning (12019): Can't analyze file -- file ../DeMiSTify/Board/poseidon-ep4cgx150/joydecoder.v is missing
+Info (12021): Found 1 design units, including 1 entities, in source file poseidon_top.sv
+    Info (12023): Found entity 1: poseidon_top File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/poseidon-ep4cgx150/poseidon_top.sv Line: 2
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/substitute_mcu.vhd
+    Info (12022): Found design unit 1: substitute_mcu-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/substitute_mcu.vhd Line: 84
+    Info (12023): Found entity 1: substitute_mcu File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/substitute_mcu.vhd Line: 24
+Info (12021): Found 1 design units, including 0 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_pkg.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_pkg File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_pkg.vhd Line: 22
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_alu.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_alu-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_alu.vhd Line: 50
+    Info (12023): Found entity 1: eightthirtytwo_alu File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_alu.vhd Line: 27
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_shifter.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_shifter-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_shifter.vhd Line: 45
+    Info (12023): Found entity 1: eightthirtytwo_shifter File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_shifter.vhd Line: 27
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_aligner-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner.vhd Line: 36
+    Info (12023): Found entity 1: eightthirtytwo_aligner File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner.vhd Line: 23
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner_le.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_aligner_le-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner_le.vhd Line: 38
+    Info (12023): Found entity 1: eightthirtytwo_aligner_le File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_aligner_le.vhd Line: 25
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_decode.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_decode-behavoural File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_decode.vhd Line: 38
+    Info (12023): Found entity 1: eightthirtytwo_decode File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_decode.vhd Line: 26
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_fetchloadstore.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_fetchloadstore-behavioural File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_fetchloadstore.vhd Line: 79
+    Info (12023): Found entity 1: eightthirtytwo_fetchloadstore File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_fetchloadstore.vhd Line: 28
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_hazard.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_hazard-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_hazard.vhd Line: 60
+    Info (12023): Found entity 1: eightthirtytwo_hazard File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_hazard.vhd Line: 26
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_debug.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_debug-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_debug.vhd Line: 53
+    Info (12023): Found entity 1: eightthirtytwo_debug File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_debug.vhd Line: 26
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_cpu.vhd
+    Info (12022): Found design unit 1: eightthirtytwo_cpu-behavoural File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_cpu.vhd Line: 59
+    Info (12023): Found entity 1: eightthirtytwo_cpu File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/eightthirtytwo_cpu.vhd Line: 27
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_bridge_jtag.vhd
+    Info (12022): Found design unit 1: debug_bridge_jtag-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_bridge_jtag.vhd Line: 39
+    Info (12023): Found entity 1: debug_bridge_jtag File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_bridge_jtag.vhd Line: 24
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_virtualjtag.vhd
+    Info (12022): Found design unit 1: debug_virtualjtag-SYN File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_virtualjtag.vhd Line: 62
+    Info (12023): Found entity 1: debug_virtualjtag File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/altera/debug_virtualjtag.vhd Line: 42
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/debug_fifo.vhd
+    Info (12022): Found design unit 1: debug_fifo-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/debug_fifo.vhd Line: 28
+    Info (12023): Found entity 1: debug_fifo File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/EightThirtyTwo/RTL/debug_fifo.vhd Line: 8
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/firmware/controller_rom.vhd
+    Info (12022): Found design unit 1: controller_rom-arch File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/firmware/controller_rom.vhd Line: 23
+    Info (12023): Found entity 1: controller_rom File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/firmware/controller_rom.vhd Line: 11
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/simple_uart.vhd
+    Info (12022): Found design unit 1: simple_uart-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/simple_uart.vhd Line: 37
+    Info (12023): Found entity 1: simple_uart File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/simple_uart.vhd Line: 8
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/jtag_uart.vhd
+    Info (12022): Found design unit 1: jtag_uart-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/jtag_uart.vhd Line: 35
+    Info (12023): Found entity 1: jtag_uart File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/jtag_uart.vhd Line: 9
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/io_ps2_com.vhd
+    Info (12022): Found design unit 1: io_ps2_com-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/io_ps2_com.vhd Line: 80
+    Info (12023): Found entity 1: io_ps2_com File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/io_ps2_com.vhd Line: 54
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/interrupt_controller.vhd
+    Info (12022): Found design unit 1: interrupt_controller-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/interrupt_controller.vhd Line: 35
+    Info (12023): Found entity 1: interrupt_controller File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/interrupt_controller.vhd Line: 21
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/timer_controller.vhd
+    Info (12022): Found design unit 1: timer_controller-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/timer_controller.vhd Line: 43
+    Info (12023): Found entity 1: timer_controller File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/timer_controller.vhd Line: 25
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/spi_controller.vhd
+    Info (12022): Found design unit 1: spi_controller-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/spi_controller.vhd Line: 43
+    Info (12023): Found entity 1: spi_controller File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/DeMiSTify/controller/spi_controller.vhd Line: 23
+Info (12021): Found 1 design units, including 0 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/demistify_config_pkg.vhd
+    Info (12022): Found design unit 1: demistify_config_pkg File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/demistify_config_pkg.vhd Line: 7
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom1_byte.vhd
+    Info (12022): Found design unit 1: controller_rom1-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom1_byte.vhd Line: 23
+    Info (12023): Found entity 1: controller_rom1 File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom1_byte.vhd Line: 6
+Info (12021): Found 2 design units, including 1 entities, in source file /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom2_byte.vhd
+    Info (12022): Found design unit 1: controller_rom2-rtl File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom2_byte.vhd Line: 23
+    Info (12023): Found entity 1: controller_rom2 File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/firmware/controller_rom2_byte.vhd Line: 6
+Warning (12019): Can't analyze file -- file ../DeMiSTify/firmware/controller_rom1_byte.vhd is missing
+Warning (12019): Can't analyze file -- file ../DeMiSTify/firmware/controller_rom2_byte.vhd is missing
+Error (10932): SystemVerilog error at poseidon_top.sv(104): can't resolve implicit port connection(s) to instance "guest" without a module declaration or an extern equivalent File: /mnt/Teradisk/SOMHIC/apple2efpga_poseidon/poseidon-ep4cgx150/poseidon_top.sv Line: 104
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 6 warnings
+    Error: Peak virtual memory: 1002 megabytes
+    Error: Processing ended: Thu Feb  1 21:04:46 2024
+    Error: Elapsed time: 00:00:09
+    Error: Total CPU time (on all processors): 00:00:24
+Error (293001): Quartus Prime Full Compilation was unsuccessful. 3 errors, 6 warnings
+Error (23031): Evaluation of Tcl script ..//DeMiSTify/Scripts/compile.tcl unsuccessful
+Error: Quartus Prime Shell was unsuccessful. 8 errors, 8 warnings
+    Error: Peak virtual memory: 774 megabytes
+    Error: Processing ended: Thu Feb  1 21:04:47 2024
+    Error: Elapsed time: 00:00:11
+    Error: Total CPU time (on all processors): 00:00:25
