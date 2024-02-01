@@ -151,8 +151,32 @@ apple2e_mist (
 	.SDRAM_BA(SDRAM_BA),
 	.SDRAM_CLK(SDRAM_CLK),
 	.SDRAM_CKE(SDRAM_CKE),
+	
+	.CLK_SYS(clk_sys),
+	.DAC_L(dac_l),
+	.DAC_R(dac_r),
 
 	.UART_RX(UART_RX),
 	.UART_TX(UART_TX)
 );
+
+wire clk_sys;
+wire [15:0] dac_l;
+wire [15:0] dac_r;
+
+`ifdef I2S_AUDIO
+i2s i2s (
+	.reset(1'b0),
+	.clk(clk_sys),
+	.clk_rate(32'd14_000_000),
+
+	.sclk(I2S_BCK),
+	.lrclk(I2S_LRCK),
+	.sdata(I2S_DATA),
+
+	.left_chan(dac_l),
+	.right_chan(dac_r)
+);
+`endif
+
 endmodule 

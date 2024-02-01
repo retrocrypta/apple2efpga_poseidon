@@ -78,6 +78,11 @@ entity apple2e_mist is
 
     UART_RX : in std_logic;
     UART_TX : out std_logic;
+	 
+	 -- Sound to top
+	 CLK_SYS : out std_logic;
+	 DAC_L   : out signed(15 downto 0);
+	 DAC_R   : out signed(15 downto 0);
 
     -- LEDG
     LED : out std_logic
@@ -577,7 +582,11 @@ begin
       unsigned(O_AUDIO_R) => psg_audio_r
       );
 
-  dac_l : work.dac
+  clk_sys <= CLK_14M;
+  DAC_L <= signed(psg_audio_l + (audio & "0000000")); 		
+  DAC_R <= signed(psg_audio_r + (audio & "0000000")); 		
+  
+  dac_1 : work.dac
     generic map(10)
     port map (
       clk_i		=> CLK_14M,
@@ -586,7 +595,7 @@ begin
       dac_o 	=> AUDIO_L
       );
 
-  dac_r : work.dac
+  dac_2 : work.dac
     generic map(10)
     port map (
       clk_i		=> CLK_14M,
