@@ -23,6 +23,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+
 library mist;
 use mist.mist.ALL;
 
@@ -588,23 +589,23 @@ begin
   DAC_L <= signed(psg_audio_l + (audio & "0000000")); 		
   DAC_R <= signed(psg_audio_r + (audio & "0000000")); 		
   
-  dac_1 : work.dac
-    generic map(10)
-    port map (
-      clk_i		=> CLK_14M,
-      res_n_i	=> not reset,
-      dac_i 	=> std_logic_vector(psg_audio_l + (audio & "0000000")),
-      dac_o 	=> AUDIO_L
-      );
-
-  dac_2 : work.dac
-    generic map(10)
-    port map (
-      clk_i		=> CLK_14M,
-      res_n_i	=> not reset,
-      dac_i 	=> std_logic_vector(psg_audio_r + (audio & "0000000")),
-      dac_o 	=> AUDIO_R
-      );
+--  dac_1 : work.dac
+--    generic map(10)
+--    port map (
+--      clk_i		=> CLK_14M,
+--      res_n_i	=> not reset,
+--      dac_i 	=> std_logic_vector(psg_audio_l + (audio & "0000000")),
+--      dac_o 	=> AUDIO_L
+--      );
+--
+--  dac_2 : work.dac
+--    generic map(10)
+--    port map (
+--      clk_i		=> CLK_14M,
+--      res_n_i	=> not reset,
+--      dac_i 	=> std_logic_vector(psg_audio_r + (audio & "0000000")),
+--      dac_o 	=> AUDIO_R
+--      );
 
   user_io_inst : user_io
     generic map (STRLEN => CONF_STR'length)
@@ -645,7 +646,7 @@ begin
       ps2_kbd_data => ps2Data
     );
 
- mist_video: work.mist.mist_video
+ vga_video: mist_video
     generic map(
       COLOR_DEPTH => 8,
       SD_HCNT_WIDTH => 10,
