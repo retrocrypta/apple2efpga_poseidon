@@ -15,7 +15,7 @@ Info: Running Quartus Prime Shell
     Info: devices manufactured by Intel and sold by Intel or its 
     Info: authorized distributors.  Please refer to the applicable 
     Info: agreement for further details.
-    Info: Processing started: Thu Feb  1 21:11:47 2024
+    Info: Processing started: Thu Feb  1 21:47:06 2024
 Info: Command: quartus_sh -t ..//DeMiSTify/Scripts/mkproject.tcl -project apple2fpga -board poseidon-ep4cgx150 -rootpath ../
 Info: Quartus(args): -project apple2fpga -board poseidon-ep4cgx150 -rootpath ../
 Info (125061): Changed top-level design entity name to "poseidon-ep4cgx150_top"
@@ -26,6 +26,6 @@ Board-specific project override not found, or contains errors.
 Info (23030): Evaluation of Tcl script ..//DeMiSTify/Scripts/mkproject.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 771 megabytes
-    Info: Processing ended: Thu Feb  1 21:11:48 2024
+    Info: Processing ended: Thu Feb  1 21:47:07 2024
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00

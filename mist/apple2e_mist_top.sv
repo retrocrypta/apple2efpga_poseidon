@@ -1,4 +1,4 @@
-module apple2e_mist_top(
+module guest_top(
 	input         CLOCK_27,
 
 	output        LED,
@@ -107,7 +107,8 @@ assign SDRAM2_nRAS = 0;
 assign SDRAM2_nWE = 0;
 `endif
 
-`include "build_id.v"
+
+
 
 apple2e_mist
 #(

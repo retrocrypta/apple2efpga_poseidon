@@ -1,0 +1,10 @@
+
+
+/mnt/Teradisk/SOMHIC/apple2efpga_poseidon/mist/mist_clk.vhd
+
+Feb 01 09PM:29:49>: Error in CNX file format.
+
+Error messages are listed in file
+/mnt/Teradisk/SOMHIC/apple2efpga_poseidon/mist/mist_clk.cnxerr.
+
+Can't create the custom megafunction variation file(s)
