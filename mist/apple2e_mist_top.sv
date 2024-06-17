@@ -1,5 +1,8 @@
 module guest_top(
 	input         CLOCK_27,
+`ifdef USE_CLOCK_50
+	input         CLOCK_50,
+`endif
 
 	output        LED,
 	output [VGA_BITS-1:0] VGA_R,
@@ -86,6 +89,21 @@ localparam VGA_BITS = 8;
 localparam VGA_BITS = 6;
 `endif
 
+`ifdef USE_HDMI
+localparam bit HDMI = 1;
+assign HDMI_RST = 1'b1;
+`else
+localparam bit HDMI = 0;
+`endif
+
+`ifdef BIG_OSD
+localparam bit BIG_OSD = 1;
+`define SEP "-;",
+`else
+localparam bit BIG_OSD = 0;
+`define SEP
+`endif
+
 `ifdef USE_AUDIO_IN
 localparam bit USE_AUDIO_IN = 1;
 `else
@@ -107,14 +125,15 @@ assign SDRAM2_nRAS = 0;
 assign SDRAM2_nWE = 0;
 `endif
 
-
-
+`include "build_id.v"
 
 apple2e_mist
 #(
 	.VGA_BITS(VGA_BITS),
 	.USE_AUDIO_IN(USE_AUDIO_IN ? "true" : "false"),
-	.BUILD_DATE(`BUILD_DATE)
+	.BUILD_DATE(`BUILD_DATE),
+	.BIG_OSD(BIG_OSD ? "true" : "false"),
+	.HDMI(HDMI ? "true" : "false")
 )
 apple2e_mist (
 	.CLOCK_27(CLOCK_27),
@@ -179,4 +198,4 @@ i2s i2s (
 );
 `endif
 
-endmodule 
+endmodule
