@@ -23,12 +23,16 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use work.mist.all;
+
+library mist;
+use mist.mist.all;
 
 entity apple2e_mist is
   generic
   (
     VGA_BITS   : integer := 6;
+    BIG_OSD : boolean := false;
+    HDMI : boolean := false;
     USE_AUDIO_IN : boolean := false;
     BUILD_DATE : string :=""
   );
@@ -60,17 +64,30 @@ entity apple2e_mist is
     CONF_DATA0 : in std_logic;
 
     -- VGA output
-    
-
     VGA_HS,                                             -- H_SYNC
     VGA_VS : out std_logic;                             -- V_SYNC
     VGA_R,                                              -- Red[x:0]
     VGA_G,                                              -- Green[x:0]
     VGA_B : out std_logic_vector(VGA_BITS-1 downto 0);  -- Blue[x:0]
-    
+
+    -- HDMI
+    HDMI_R     : out   std_logic_vector(7 downto 0) := (others => '0');
+    HDMI_G     : out   std_logic_vector(7 downto 0) := (others => '0');
+    HDMI_B     : out   std_logic_vector(7 downto 0) := (others => '0');
+    HDMI_HS    : out   std_logic := '0';
+    HDMI_VS    : out   std_logic := '0';
+    HDMI_DE    : out   std_logic := '0';
+    HDMI_PCLK  : out   std_logic := '0';
+    HDMI_SCL   : inout std_logic;
+    HDMI_SDA   : inout std_logic;
+
     -- Audio
     AUDIO_L,
     AUDIO_R : out std_logic;
+    I2S_BCK    : out   std_logic;
+    I2S_LRCK   : out   std_logic;
+    I2S_DATA   : out   std_logic;
+    SPDIF_O    : out   std_logic;
 
     AUDIO_IN : in std_logic;
 
@@ -88,18 +105,19 @@ end apple2e_mist;
 
 architecture datapath of apple2e_mist is
 
-  constant CONF_STR : string :=
-   "AppleII;;"&
-   "S0U,NIB,Load Disk 0;"&
-   "S1U,NIB,Load Disk 1;"&
-   "O89,Write Protect,None,Disk 0,Disk 1, Disk 0&1;"&
-   "O1,CPU Type,6502,65C02;"&
-   "O23,Monitor,Color,B&W,Green,Amber;"&
-   "O4,Machine Type,NTSC,PAL;"&
-   "OBC,Scanlines,Off,25%,50%,75%;"&
-   "O5,Joysticks,Normal,Swapped;"&
-   "O6,Mockingboard S4,off,on;"&
-   "T7,Cold reset;";
+  function SEP return string is
+  begin
+	  if BIG_OSD then return "-;"; else return ""; end if;
+  end function;
+
+  function USER_IO_FEAT return std_logic_vector is
+  variable feat: std_logic_vector(31 downto 0);
+  begin
+    feat := x"00000000";
+	  if BIG_OSD then feat := feat or x"00002000"; end if;
+	  if HDMI    then feat := feat or x"00004000"; end if;
+	  return feat;
+  end function;
 
   function to_slv(s: string) return std_logic_vector is 
     constant ss: string(1 to s'length) := s; 
@@ -114,8 +132,23 @@ architecture datapath of apple2e_mist is
       rval(p - 7 to p) := std_logic_vector(to_unsigned(c,8)); 
     end loop; 
     return rval; 
-
   end function; 
+
+  constant CONF_STR : string :=
+   "AppleII;;"&
+   "S0U,NIB,Load Disk 0;"&
+   "S1U,NIB,Load Disk 1;"&
+   SEP&
+   "O89,Write Protect,None,Disk 0,Disk 1, Disk 0&1;"&
+   "O1,CPU Type,6502,65C02;"&
+   "O23,Monitor,Color,B&W,Green,Amber;"&
+   "ODE,Color palette,//e,IIgs,AppleWin,apple2fpga;"&
+   "O4,Machine Type,NTSC,PAL;"&
+   "OBC,Scanlines,Off,25%,50%,75%;"&
+   "O5,Joysticks,Normal,Swapped;"&
+   "O6,Mockingboard S4,off,on;"&
+   SEP&
+   "T7,Cold reset;";
 
   component mist_sd_card
     port (
@@ -166,6 +199,34 @@ architecture datapath of apple2e_mist is
     );
   end component;
 
+  component i2s
+  generic (
+    I2S_Freq   : integer := 48000;
+    AUDIO_DW   : integer := 16
+  );
+  port
+  (
+    clk        : in    std_logic;
+    reset      : in    std_logic;
+    clk_rate   : in    integer;
+    sclk       : out   std_logic;
+    lrclk      : out   std_logic;
+    sdata      : out   std_logic;
+    left_chan  : in    std_logic_vector(AUDIO_DW-1 downto 0);
+    right_chan : in    std_logic_vector(AUDIO_DW-1 downto 0)
+  );
+  end component i2s;
+
+  component spdif port
+  (
+    clk_i      : in    std_logic;
+    rst_i      : in    std_logic;
+    clk_rate_i : in    integer;
+    spdif_o    : out   std_logic;
+    sample_i   : in    std_logic_vector(31 downto 0)
+  );
+  end component spdif;
+
   signal CLK_28M, CLK_14M, CLK_2M, CLK_2M_D, PHASE_ZERO, PHASE_ZERO_R, PHASE_ZERO_F : std_logic;
   signal clk_div : unsigned(1 downto 0);
   signal IO_SELECT, DEVICE_SELECT : std_logic_vector(7 downto 0);
@@ -182,6 +243,7 @@ architecture datapath of apple2e_mist is
   signal COLOR_LINE : std_logic;
   signal COLOR_LINE_CONTROL : std_logic;
   signal SCREEN_MODE : std_logic_vector(1 downto 0);
+  signal COLOR_PALETTE : std_logic_vector(1 downto 0);
   signal GAMEPORT : std_logic_vector(7 downto 0);
   signal scandoubler_disable : std_logic;
   signal ypbpr : std_logic;
@@ -220,6 +282,7 @@ architecture datapath of apple2e_mist is
   signal r : unsigned(7 downto 0);
   signal g : unsigned(7 downto 0);
   signal b : unsigned(7 downto 0);
+  signal blank : std_logic;
   signal hsync : std_logic;
   signal vsync : std_logic;
   signal sd_we : std_logic;
@@ -236,6 +299,15 @@ architecture datapath of apple2e_mist is
   signal ram_we : std_logic;
   signal ram_di : std_logic_vector(7 downto 0);
   signal ram_addr : std_logic_vector(24 downto 0);
+
+  signal i2c_start : std_logic;
+  signal i2c_read : std_logic;
+  signal i2c_addr : std_logic_vector(6 downto 0);
+  signal i2c_subaddr : std_logic_vector(7 downto 0);
+  signal i2c_wdata : std_logic_vector(7 downto 0);
+  signal i2c_rdata : std_logic_vector(7 downto 0);
+  signal i2c_end : std_logic;
+  signal i2c_ack : std_logic;
   
   signal switches   : std_logic_vector(1 downto 0);
   signal buttons    : std_logic_vector(1 downto 0);
@@ -372,6 +444,7 @@ begin
 
   COLOR_LINE_CONTROL <= COLOR_LINE and not (status(2) or status(3));  -- Color or B&W mode
   SCREEN_MODE <= status(3 downto 2); -- 00: Color, 01: B&W, 10:Green, 11: Amber
+  COLOR_PALETTE <= status(14 downto 13);
   
   -- sdram interface
   SDRAM_CKE <= '1';
@@ -444,12 +517,13 @@ begin
     VIDEO      => VIDEO,
     COLOR_LINE => COLOR_LINE_CONTROL,
     SCREEN_MODE => SCREEN_MODE,
+    COLOR_PALETTE => COLOR_PALETTE,
     HBL        => HBL,
     VBL        => VBL,
     VGA_CLK    => open,
     VGA_HS     => hsync,
     VGA_VS     => vsync,
-    VGA_BLANK  => open,
+    VGA_BLANK  => blank,
     VGA_R      => r,
     VGA_G      => g,
     VGA_B      => b
@@ -577,7 +651,7 @@ begin
       unsigned(O_AUDIO_R) => psg_audio_r
       );
 
-  dac_l : work.dac
+  dac_l : mist.dac
     generic map(10)
     port map (
       clk_i		=> CLK_14M,
@@ -586,7 +660,7 @@ begin
       dac_o 	=> AUDIO_L
       );
 
-  dac_r : work.dac
+  dac_r : mist.dac
     generic map(10)
     port map (
       clk_i		=> CLK_14M,
@@ -595,9 +669,32 @@ begin
       dac_o 	=> AUDIO_R
       );
 
-  user_io_inst : user_io
-    generic map (STRLEN => CONF_STR'length)
+  my_i2s : i2s
+  port map (
+    clk => CLK_28M,
+    reset => '0',
+    clk_rate => 28_600_000,
+    sclk => I2S_BCK,
+    lrclk => I2S_LRCK,
+    sdata => I2S_DATA,
+    left_chan  => '0'&std_logic_vector(psg_audio_l + (audio & "0000000"))&"00000",
+    right_chan => '0'&std_logic_vector(psg_audio_r + (audio & "0000000"))&"00000"
+  );
 
+  my_spdif : spdif
+  port map (
+    rst_i => '0',
+    clk_i => CLK_28M,
+    clk_rate_i => 28_600_000,
+    spdif_o => SPDIF_O,
+    sample_i => '0'&std_logic_vector(psg_audio_r + (audio & "0000000"))&"00000" & '0'&std_logic_vector(psg_audio_l + (audio & "0000000"))&"00000"
+  );
+
+  user_io_inst : user_io
+    generic map (
+      STRLEN => CONF_STR'length,
+      FEATURES => USER_IO_FEAT
+    )
     port map (
       clk_sys => CLK_14M,
       clk_sd => CLK_14M,
@@ -616,6 +713,16 @@ begin
       scandoubler_disable => scandoubler_disable,
       ypbpr => ypbpr,
       no_csync => no_csync,
+
+      i2c_start => i2c_start,
+      i2c_read => i2c_read,
+      i2c_addr => i2c_addr,
+      i2c_subaddr => i2c_subaddr,
+      i2c_dout => i2c_wdata,
+      i2c_din => i2c_rdata,
+      i2c_end => i2c_end,
+      i2c_ack => i2c_ack,
+
       -- connection to io controller
       sd_lba  => sd_lba,
       sd_rd   => sd_rd,
@@ -634,11 +741,12 @@ begin
       ps2_kbd_data => ps2Data
     );
 
- mist_video: work.mist.mist_video
+ vga_video : mist_video
     generic map(
       COLOR_DEPTH => 8,
       SD_HCNT_WIDTH => 10,
-      OUT_COLOR_DEPTH => VGA_BITS
+      OUT_COLOR_DEPTH => VGA_BITS,
+      BIG_OSD => BIG_OSD
     )
     port map (
       clk_sys => CLK_28M,
@@ -664,5 +772,66 @@ begin
       VGA_G  => VGA_G,
       VGA_B  => VGA_B
     );
+
+hdmi_block : if HDMI generate
+
+  i2c_master_d : i2c_master
+  generic map (
+    CLK_Freq => 28000000
+  )
+  port map (
+    CLK => CLK_28M,
+    I2C_START => i2c_start,
+    I2C_READ => i2c_read,
+    I2C_ADDR => i2c_addr,
+    I2C_SUBADDR => i2c_subaddr,
+    I2C_WDATA => i2c_wdata,
+    I2C_RDATA => i2c_rdata,
+    I2C_END => i2c_end,
+    I2C_ACK => i2c_ack,
+    I2C_SCL => HDMI_SCL,
+    I2C_SDA => HDMI_SDA
+  );
+
+  hdmi_video : mist_video
+  generic map (
+    SD_HCNT_WIDTH => 10,
+    COLOR_DEPTH => 8,
+    OSD_COLOR => "011",
+    USE_BLANKS => true,
+    OUT_COLOR_DEPTH => 8,
+    BIG_OSD => BIG_OSD,
+    VIDEO_CLEANER => true
+  )
+  port map (
+    clk_sys => CLK_28M,
+    scanlines   => status(12 downto 11),
+    ce_divider => "001",
+    scandoubler_disable => '0',
+    ypbpr => '0',
+    no_csync => '1',
+    rotate => "00",
+
+    SPI_DI => SPI_DI,
+    SPI_SCK => SPI_SCK,
+    SPI_SS3 => SPI_SS3,
+
+    R => std_logic_vector(r),
+    G => std_logic_vector(g),
+    B => std_logic_vector(b),
+    HBlank => blank,
+    VBlank => not vsync,
+    HSync => hsync,
+    VSync => vsync,
+    VGA_HS => HDMI_HS,
+    VGA_VS => HDMI_VS,
+    VGA_R  => HDMI_R,
+    VGA_G  => HDMI_G,
+    VGA_B  => HDMI_B,
+    VGA_DE => HDMI_DE
+  );
+
+  HDMI_PCLK <= CLK_28M;
+end generate;
 
 end datapath;
