@@ -79,8 +79,8 @@ entity disk_ii is
     A              : in  unsigned(15 downto 0);
     D_IN           : in  unsigned( 7 downto 0); -- From 6502
     D_OUT          : out unsigned( 7 downto 0); -- To 6502
-    D1_ACTIVE      : buffer std_logic;             -- Disk 1 motor on
-    D2_ACTIVE      : buffer std_logic;             -- Disk 2 motor on
+    D1_ACTIVE      : buffer std_logic;          -- Disk 1 motor on
+    D2_ACTIVE      : buffer std_logic;          -- Disk 2 motor on
     WP             : in  std_logic_vector(1 downto 0);
     -- Track buffer interface disk 1
     TRACK1         : out unsigned( 5 downto 0); -- Current track (0-34)
@@ -95,11 +95,23 @@ entity disk_ii is
     TRACK2_DI      : out unsigned( 7 downto 0);
     TRACK2_DO      : in  unsigned( 7 downto 0);
     TRACK2_WE      : out std_logic;
-    TRACK2_BUSY    : in  std_logic
+    TRACK2_BUSY    : in  std_logic;
+    -- For floppy sound emulation
+    SPEAKER_I  	   : in std_logic;
+    SPEAKER_O	   : out std_logic
     );
 end disk_ii;
 
 architecture rtl of disk_ii is
+
+  component floppy_sound is
+    port (
+        clk       : in std_logic;
+        phs       : in std_logic_vector(3 downto 0);
+        motor     : in std_logic;
+        speaker   : in std_logic;
+        pwm       : out std_logic );
+  end component;
 
   signal motor_phase : std_logic_vector(3 downto 0);
   signal drive_on : std_logic;
@@ -122,7 +134,7 @@ architecture rtl of disk_ii is
   signal write_reg : std_logic;
   signal data_reg : unsigned(7 downto 0);
   signal reset_data_reg : std_logic;
-  signal write_mode : std_logic;        -- When C08E/F accessed
+  signal write_mode : std_logic;   -- When C08E/F accessed
   signal wp_wire : std_logic;
 
 begin
@@ -209,7 +221,7 @@ begin
     READ_DISK      => read_disk,    -- C08C
     WRITE_REG      => write_reg,    -- C08F/D
     -- Track buffer interface
-    TRACK          => TRACK1, -- Current track (0-34)
+    TRACK          => TRACK1,       -- Current track (0-34)
     TRACK_ADDR     => TRACK1_ADDR,
     TRACK_DI       => TRACK1_DI,
     TRACK_DO       => TRACK1_DO,
@@ -245,5 +257,14 @@ begin
     addr => A(7 downto 0),
     clk  => CLK_14M,
     dout => rom_dout);
+
+  -- floppy sound emulation
+  sound: component floppy_sound port map (
+    clk => CLK_14M,
+    phs => motor_phase,
+    motor => D1_ACTIVE,
+    speaker => SPEAKER_I,
+    pwm => SPEAKER_O 
+  );
 
 end rtl;

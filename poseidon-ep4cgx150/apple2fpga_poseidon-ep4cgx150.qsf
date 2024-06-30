@@ -101,6 +101,14 @@ set_global_assignment -name CYCLONEII_OPTIMIZATION_TECHNIQUE BALANCED
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+# Project-Wide Assignments
+# ========================
+set_global_assignment -name PRE_FLOW_SCRIPT_FILE "quartus_sh:build_id.tcl"
+set_global_assignment -name SMART_RECOMPILE ON
+
+# Pin & Location Assignments
+# ==========================
 set_location_assignment PIN_B14 -to CLOCK_50
 set_location_assignment PIN_AF21 -to VGA_R[5]
 set_location_assignment PIN_AF23 -to VGA_R[4]
@@ -255,7 +263,9 @@ set_location_assignment PIN_A25 -to LED1
 set_location_assignment PIN_A24 -to LED2
 set_location_assignment PIN_AD23 -to KEY0
 set_location_assignment PIN_AD24 -to KEY1
+
 set_location_assignment PLL_1 -to "pll:pll|altpll:altpll_component"
+
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to SDRAM_DQ[0]
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to SDRAM_DQ[1]
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to SDRAM_DQ[2]
@@ -385,13 +395,8 @@ set_global_assignment -name VERILOG_MACRO "BIG_OSD=1"
 set_global_assignment -name VERILOG_MACRO "DEMISTIFY=1"
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name SDC_FILE "../DeMiSTify/Board/poseidon-ep4cgx150/constraints.sdc"
-set_global_assignment -name VHDL_FILE "../DeMiSTify/Board/poseidon-ep4cgx150/audio_i2s.vhd"
-set_global_assignment -name VERILOG_FILE "../DeMiSTify/Board/poseidon-ep4cgx150/joydecoder.v"
+
 set_global_assignment -name QIP_FILE top.qip
 set_global_assignment -name QIP_FILE ../files.qip
-set_global_assignment -name QIP_FILE ../DeMiSTify/controller/controller.qip
-set_global_assignment -name VHDL_FILE ../demistify_config_pkg.vhd
-set_global_assignment -name VHDL_FILE ../firmware/controller_rom1_byte.vhd
-set_global_assignment -name VHDL_FILE ../firmware/controller_rom2_byte.vhd
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
